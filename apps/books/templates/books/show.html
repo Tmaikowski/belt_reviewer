@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Show Page</title>
+  </head>
+  <body>
+    <h3>{{ book.title }}</h3>
+    <p>Author: {{ book.author.name }}</p>
+    <h5>Reviews</h5>
+    <hr>
+    {% for review in book.review_set.all %}
+    <p>Rating: {{ review.rating }}</p>
+    <p><a href="{% url 'login_register:show' id=review.user.id %}">{{ review.user.first_name }}</a>
+      says: <em>{{ review.content }}</em></p>
+    <p><em>Posted on {{ review.created_at }}</em></p>
+    {% if request.session.user == review.user.id %}
+    <form action="{% url 'books:delete_review' id=review.id %}" method="POST">
+      {% csrf_token %}
+      <input type="submit" value="Delete Review">
+    </form>
+    {% endif %}
+    <hr>
+    {% endfor %}
+    <form action="{% url 'books:new_review' %}" method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="book_id" value="{{ book.id }}">
+      <p>Add a review: <textarea name="review_content"></textarea></p>
+      <p>Rating: <input type="number" name="rating"></p>
+      <input type="submit" value="Submit Review">
+    </form>
+  </body>
+</html>

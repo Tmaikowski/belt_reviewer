@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Show</title>
+  </head>
+  <body>
+    <h2>User Alias: {{ user.first_name }}</h2>
+    <p>Name: {{ user.first_name }} {{ user.last_name }}</p>
+    <p>Email: {{ user.email }}</p>
+    <p>Total Reviews: {{ user.review_set.count }}</p>
+    <p>Posted Reviews on the following books:</p>
+    {% for book in user.review_set.all %}
+    <p><a href="{% url 'books:show' id=book.book.id %}">{{ book.book.title }}</a></p>
+    {% endfor %}
+  </body>
+</html>

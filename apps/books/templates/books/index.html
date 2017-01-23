@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Index Page</title>
+  </head>
+  <body>
+    <h5>Welcome, {{ user.first_name }}</h5>
+    <a href="{% url 'login_register:logout' %}">Logout</a>
+    <h2>Recent Book Reviews:</h2>
+    <hr>
+    {% for book in books %}
+    <p><a href="{% url 'books:show' id=book.id %}">{{ book.title }}</a></p>
+    <h6>Rating: {{ book.review_set.all.0.rating }}</h6>
+    <p><a href="{% url 'login_register:show' id=book.review_set.all.0.user.id %}">{{ book.review_set.all.0.user.first_name }}</a> says: {{ book.review_set.all.0.content }}</p>
+    <hr>
+    {% endfor %}
+    <h1>{{ books.0.review_set.all.0.user.first_name }}</h1>
+  </body>
+</html>
